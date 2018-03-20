@@ -30,6 +30,16 @@ namespace addressbook_tests_white
 			return this;
 		}
 
+		public void Remove(int index)
+		{
+			DefineRootArray(out TreeNode root);
+
+			root.Nodes[index].Select();
+			Window deleteGroupDialogue = OpenGroupRemovalConfirmation();
+			deleteGroupDialogue.Get<Button>("uxOKAddressButton").Click();
+			CloseGroupDialogue(dialogue);
+		}
+
 
 
 		public List<GroupData> GetGroupsList()
@@ -49,32 +59,21 @@ namespace addressbook_tests_white
 			return groups;
 		}
 
-		public void Remove(int index)
-		{
-			DefineRootArray(out TreeNode root);
-
-			TreeNode removedGroup = root.Nodes[index];
-			removedGroup.Select();
-			Window deleteGroupDialogue = OpenGroupRemovalConfirmation();
-			deleteGroupDialogue.Get<Button>("uxOKAddressButton").Click();
-			CloseGroupDialogue(dialogue);
-		}
-
 		private Window OpenGroupDialogue()
 		{
 			manager.MainWindow.Get<Button>("groupButton").Click();
 			return manager.MainWindow.ModalWindow(WinGroupEditor);
 		}
 
+		private void CloseGroupDialogue(Window dialogue)
+		{
+			dialogue.Get<Button>("uxCloseAddressButton").Click();
+		}
+
 		private Window OpenGroupRemovalConfirmation()
 		{
 			dialogue.Get<Button>("uxDeleteAddressButton").Click();
 			return dialogue.ModalWindow("Delete group");
-		}
-
-		private void CloseGroupDialogue(Window dialogue)
-		{
-			dialogue.Get<Button>("uxCloseAddressButton").Click();
 		}
 
 		private void DefineRootArray(out TreeNode root)

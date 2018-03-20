@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
+using System;
 
 namespace addressbook_tests_white
 {
@@ -9,16 +10,24 @@ namespace addressbook_tests_white
 		[Test]
 		public void GroupRemovalTest()
 		{
-
-			if (app.GroupH.CountGroupItems() == 0)
+			int index = 0;
+			if (app.GroupH.CountGroupItems() == 1)
 			{
 				GroupData tempData = new GroupData()
 				{
-					Name = "vvRR"
+					Name = "zzRR"
 				};
+				List<GroupData> checkGroupName = app.GroupH.GetGroupsList();
 				app.GroupH.Add(tempData);
+				string nameGroup = checkGroupName[0].Name;
+				if (Convert.ToChar(nameGroup.Substring(0,1))<
+					Convert.ToChar(tempData.Name.Substring(0,1)))
+				{
+					index = 1;
+				}
 			}
-			int index = 0;
+
+			
 			List<GroupData> oldGroups = app.GroupH.GetGroupsList();
 			app.GroupH.Remove(index);
 			oldGroups.RemoveAt(index);
